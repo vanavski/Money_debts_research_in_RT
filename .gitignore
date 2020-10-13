@@ -36,6 +36,8 @@ MANIFEST
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
+token.txt
+input.xlsx
 
 # Unit test / coverage reports
 htmlcov/
@@ -124,6 +126,7 @@ venv.bak/
 .mypy_cache/
 .dmypy.json
 dmypy.json
+
 
 # Pyre type checker
 .pyre/
