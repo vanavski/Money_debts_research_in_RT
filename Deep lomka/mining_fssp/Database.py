@@ -23,7 +23,10 @@ class Database(object):
                 dt.loc[el, 'name'] = spl[1]
                 dt.loc[el, 'lastname'] = spl[0]
                 dt.loc[el, 'secondname'] = spl[2]
-                dt.loc[el, 'birthday'] = spl[3]
+                if (len(spl) > 3):
+                    dt.loc[el, 'birthday'] = spl[3]
+                else:
+                    dt.loc[el, 'birthday'] = None
                 s = ''
                 len_s = len(spl)
                 for k in range(4, len_s):
@@ -54,9 +57,11 @@ class Database(object):
                              'department', 'status'])
 
                 db = pd.concat([db, data])
+                db = db[db.columns.drop(list(db.filter(regex='^Unnamed')))]
                 db.to_excel('dataset.xlsx')
             else:
                 db = pd.read_excel('dataset.xlsx')
+                db = db[db.columns.drop(list(db.filter(regex='^Unnamed')))]
                 db = pd.concat([db, data])
                 db.to_excel('dataset.xlsx')
 
@@ -86,6 +91,7 @@ class Database(object):
 
     def load_person_dataset(self):
         dataset = pd.read_excel('person_dataset.xlsx')
+        dataset = dataset[dataset.columns.drop(list(dataset.filter(regex='^Unnamed')))]
         return dataset
 
     def load_50_person_for_json(self, dataset):
@@ -100,11 +106,13 @@ class Database(object):
         df = self.load_person_dataset()
         for i in range(indexes[0], indexes[1]):
             df['status'][i] = status
+        df = df[df.columns.drop(list(df.filter(regex='^Unnamed')))]
         df.to_excel('person_dataset.xlsx')
 
     def update_people_status_single_requests(self, index, status):
         df = self.load_person_dataset()
         df.loc[index, 'status'] = status
+        df = df[df.columns.drop(list(df.filter(regex='^Unnamed')))]
         df.to_excel('person_dataset.xlsx')
 
 

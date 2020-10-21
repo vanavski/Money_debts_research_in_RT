@@ -34,7 +34,7 @@ class DataMiner(object):
 
         return sqr
 
-    # TODO: CHECK COMMAND NOT 1
+
     def execute_data_miner(self, command_number):
         dataset = self.database.load_person_dataset()
 
@@ -51,26 +51,24 @@ class DataMiner(object):
                 if (dataset['status'][i] != 0):
                     # сто запросов в час
                     if (counter < 100):
+                        print('Время обработки запроса: {}'.format(datetime.datetime.now()))
+                        print('запрос номер: {}'.format(counter))
+                        print('i: {}'.format(i))
                         person = Person(dataset['first_name'][i], dataset['last_name'][i])
                         status, result_data = self.requests_brain.single_request(person)
+                        print('status: {}'.format(status))
 
                         self.database.update_people_status_single_requests(i, status)
 
                         if status == 0:
                             self.database.save_data_to_result_dataset(result_data)
+                        elif status == 429:
+                            print('429, break')
+                            break
                         counter += 1
                     else:
+                        print('Запросы кончились')
                         break
-
-    #       if status == 404
-    #       indexes_50_people = 1 (old task)
-
-    #       if status == 429
-    #       ... interrupt...
-    #       (need to think wha to do)
-
-    #       if status = 2
-    #       wait....time sleep or interrupt
 
     def get_json(self, people_50):
         if len(people_50) > 50:
@@ -156,7 +154,7 @@ class DataMiner(object):
 
 # first
 miner = DataMiner()
-
+# добавить время начала, индексы, какой идет из 100 и время обработки каждого элемента
 miner.execute_data_miner(2)
 
 
