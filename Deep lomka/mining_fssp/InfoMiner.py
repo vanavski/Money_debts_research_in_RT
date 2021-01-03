@@ -50,7 +50,7 @@ class DataMiner(object):
             for i in range(len(dataset)):
                 if (dataset['status'][i] != 0):
                     # сто запросов в час
-                    if (counter < 100):
+                    if (counter < 1000):
                         print('Время обработки запроса: {}'.format(datetime.datetime.now()))
                         print('запрос номер: {}'.format(counter))
                         print('i: {}'.format(i))

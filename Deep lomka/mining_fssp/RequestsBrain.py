@@ -71,7 +71,7 @@ class RequestsBrain(object):
             counter = 0
             while (task_status == 2):
                 if (counter < 50):
-                    time.sleep(5)
+                    time.sleep(40)
                     task_status = self.GetTaskState(task)
                     if (task_status == 0):
                         result_json = self.GetResult(task)
